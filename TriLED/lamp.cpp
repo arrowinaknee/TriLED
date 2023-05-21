@@ -18,6 +18,7 @@ const int LED_PIN = 14;
 const int SECTIONS = 7;
 const int SECTION_SIZE = 16;
 const int LED_NUM = SECTION_SIZE * SECTIONS;
+const float LAMP_LEN = 0.5f + 0.5f * (SECTIONS / 2);
 
 CRGB leds[LED_NUM];
 
@@ -43,6 +44,8 @@ color hsv(float h, float s, float v) {
       return { x, m, c };
     case 5:
       return { c, m, x };
+    default:
+      return { 0, 0, 0 };
   }
 }
 float percent(float num, float of) {
@@ -135,7 +138,7 @@ void loop_lamp() {
     int local_led = led % SECTION_SIZE;
     float local_pos = percent(local_led, SECTION_SIZE);
     float pos = section_start(section) + section_delta(section) * local_pos;
-    float frac = pos / 2.0f;
+    float frac = pos / LAMP_LEN;
     int i = round(frac * (samples - 1));
 
 
